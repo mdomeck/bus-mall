@@ -1,0 +1,45 @@
+h1 {
+  width: 300px;
+  margin: 30px auto;
+  font-size:  30px;
+}
+
+div {
+  width: 30%
+}
+
+img {
+  width: 100%;
+}
+
+section {
+  float: left;
+  width: 100%;
+  padding-right: 5%;
+  padding-left: 5%;
+  }
+
+section > p {
+  font-size: 20px;
+  margin: 0 10px;
+}
+
+#first-image {
+  /* background-color: blue; */
+  float: left;
+  width: 30%;
+}
+
+#second-image {
+  /* background-color: red; */
+  float: left;
+  width: 30%;
+}
+#third-image {
+  /* background-color:green; */
+  float: left;
+  width: 30%;
+}
+
+
+
