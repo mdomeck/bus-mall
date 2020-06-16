@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="style.css">
   <title>Bus Mall Analysis</title>
-<link rel="stylesheet" href="style.css">
 </head>
-<body id="table">
+
+<body>
   <h1>Click on your favorite product</h1>
 
   <section id="product-images">
-    <img id="first-image" src=" ">
-    <p id="first-text"></p>
-    <img id="second-image" src=" ">
-    <p id="second-text"></p>
-    <img id="third-image" src=" ">
-    <p id="third-text"></p>
+    <div id="first">
+      <img id="first-image" src=" ">
+      <p id="first-text"></p>
+    </div>
+    <div id="second">
+      <img id="second-image" src=" ">
+      <p id="second-text"></p>
+    </div>
+    <div id="third">
+      <img id="third-image" src=" ">
+      <p id="third-text"></p>
+    </div>
   </section>
- 
-<table id="productTable"></table>
-<form id="Product"></form>
 
-<!-- <section id="results">  
+  <section id="product-list">
+    <h3></h3>
+    <ul>
+    <li></li>
+    </ul>
+  </section>
+  <!-- <section id="results">  
 <label for="imageSource">Product Name</label>
 <input type="text" name="imageSource">
 
@@ -35,4 +47,5 @@
 
   <script src="js/app.js"></script>
 </body>
+
 </html>

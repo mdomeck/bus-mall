@@ -17,10 +17,16 @@ how many times its been shown
 times clicked/ times shown = percentage of popularity 
 
 */
+'use strict';
 //===============Global Variables================//
-var productCollection = [];
+
+Product.collection = [];
 var totalClicks = 0;
 var maxClicks = 5;
+
+function pickRandom(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
 
 //============Constructor======================//
 
@@ -30,8 +36,12 @@ function Product(imageSource, caption) {
   this.imageSrc = imageSource;
   this.textCaption = caption;
 
-  productCollection.push(this);
+  Product.collection.push(this);
 }
+
+// Product.productCollection = [];
+
+//==============Products======================//
 
 new Product('images/bag.jpg', 'Star Wars Luggage');
 new Product('images/banana.jpg', 'Banana Slicer');
@@ -55,104 +65,105 @@ new Product('images/chair.jpg', 'Chari');
 // new Product('images/wine-glass.jpg', 'Wine Glass');
 
 
+
 var productImageSection = document.getElementById('product-images');
 
+productImageSection.addEventListener('click', handleClickOnAProduct);
+
+// ================Callback Function================
+
+
+function createRandomNumbers() {
+  var firstRandom = pickRandom(0, Product.collection.length);
+  console.log('first new', Product.collection[firstRandom]);
+
+  var secondRandom = pickRandom(0, Product.collection.length);
+  console.log('second new', Product.collection[secondRandom]);
+
+  var thirdRandom = pickRandom(0, Product.collection.length);
+  console.log('third new', Product.collection.length);
+
+  while (secondRandom === firstRandom) {
+    secondRandom = pickRandom(0, Product.collection.length);
+    console.log('second new (reroll)', Product.collection[secondRandom]);
+  }
+  while (thirdRandom === firstRandom || thirdRandom === secondRandom) {
+    thirdRandom = pickRandom(0, Product.collection.length);
+    console.log('third new (reroll)', Product.collection[thirdRandom]);
+  }
+
+  return [firstRandom, secondRandom, thirdRandom];
+}
 
 function handleClickOnAProduct(event) {
   console.log('click');
   // debugger;
   if (event.target.tagName === 'IMG') {
     totalClicks++;
+    console.log(totalClicks);
+
+    var targetSrc = event.target.getAttribute('src');
+    for (var i = 0; i < Product.collection.length; i++) {
+      if (Product.collection[i].imageSrc === targetSrc) {
+        Product.collection[i].clicked++;
+      }
+    }
     if (totalClicks === maxClicks) {
       productImageSection.removeEventListener('click', handleClickOnAProduct);
     }
+    renderSomeRandomImages();
   }
-  productImageSection.addEventListener('click', handleClickOnAProduct);
+}
 
-  var targetSrc = event.target.getAttribute('src');
-  for (var i = 0; i < productCollection.length; i++) {
-    if (productCollection[i].imageSrc === targetSrc) {
-      productCollection[i].clicked++;
-    }
-  }
+function renderSomeRandomImages() {
+  var myRandomNumbers = createRandomNumbers();
+  var firstImage = document.getElementById('first-image');
+  var firstText = document.getElementById('first-text');
+  var secondImage = document.getElementById('second-image');
+  var secondText = document.getElementById('second-text');
+  var thirdImage = document.getElementById('third-image');
+  var thirdText = document.getElementById('third-text');
+
+  var firstProduct = Product.collection[myRandomNumbers[0]];
+  firstImage.src = firstProduct.imageSrc;
+  firstText.textContent = firstProduct.textCaption;
+  firstProduct.shown++;
+
+  var secondProduct = Product.collection[myRandomNumbers[1]];
+  secondImage.src = secondProduct.imageSrc;
+  secondText.textContent = secondProduct.textCaption;
+  secondProduct.shown++;
+
+  var thirdProduct = Product.collection[myRandomNumbers[2]];
+  thirdImage.src = thirdProduct.imageSrc;
+  thirdText.textContent = thirdProduct.textCaption;
+  thirdProduct.shown++;
+
 }
 
 renderSomeRandomImages();
 
+if (totalClicks === maxClicks) {
+  document.getElementById('first').style.display = 'none';
+  document.getElementById('second').style.display = 'none';
+  document.getElementById('third').style.display = 'none';
 
+var resultsList = document.getElementById('product-list');
+var listHeader = document.getElementById('h3');
+var listContent = document.getElementById('li');
 
-function renderSomeRandomImages() {
-  var firstRandom = pickRandom(0, productCollection.length);
-  console.log('first new', productCollection[firstRandom]);
+listHeader.textContent = 'Survey Results';
+renderSomeRandomImages.appendChild(listHeader);
 
-  var secondRandom = pickRandom(0, productCollection.length);
-  console.log('second new', productCollection[secondRandom]);
+for (var i = 0; i < Product.collection.length; i++) {
 
-  var thirdRandom = pickRandom(0, productCollection.length);
-  console.log('third new', productCollection.length);
+  listContent = document.createElement('li');
+  listContent.textContent = 'The image ' + Product.collection[i].imageSrc + 'received ' + Product.collection[i].clicked + ' chosen out of ' + Product.collection[i].shown + ' times shown';
+  resultsList.appendChild(listContent);
 
-  while (secondRandom === firstRandom) {
-    secondRandom = pickRandom(0, productCollection.length);
-    console.log('second new (reroll)', productCollection[secondRandom]);
+  if(Product.collection[i].clicked === 1){
+    listContent.textContent = 'The image ' + Product.collection[i].imageSrc + ' received ' + Product.collection.clicked + ' voted out of ' + Product.collection[i].shown + ' times shown.';
+    resultsList.appendChild(listContent);
   }
-  while (thirdRandom === firstRandom || thirdRandom === secondRandom) {
-    thirdRandom = pickRandom(0, productCollection.length);
-    console.log('third new (reroll)', productCollection[thirdRandom]);
-  }
-  return [firstRandom, secondRandom, thirdRandom];
 }
-
-var myRandomNumbers = renderSomeRandomImages();
-
-var firstImage = document.getElementById('first-image');
-var firstText = document.getElementById('first-text');
-var secondImage = document.getElementById('second-image');
-var secondText = document.getElementById('second-text');
-var thirdImage = document.getElementById('third-image');
-var thirdText = document.getElementById('third-text');
-
-firstImage.src = productCollection[myRandomNumbers[0]].imageSrc;
-firstText.textContent = productCollection[myRandomNumbers[0]].imageCaption;
-productCollection[myRandomNumbers[0]].shown++;
-
-var secondProduct = productCollection[myRandomNumbers[1]];
-secondImage.src = secondProduct.imageSrc;
-secondText.textContent = secondProduct.imageCaption;
-secondProduct.shown++;
-
-var thirdProduct = productCollection[myRandomNumbers[2]];
-thirdImage.src = thirdProduct.imageSrc;
-thirdText.textContent = thirdProduct.imageCaption;
-thirdProduct.shown++;
-
-function pickRandom(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
 }
-
-firstImage.addEventListener('click', handleClickOnAProduct);
-
-// secondImage.addEventListener('click', handleClickOnAProduct);
-
-// thirdImage.addEventListener('click', handleClickOnAProduct);
-
-
-var productResult = document.getElementById('');
-
-
-function makeTable() {
-  var table = document.getElementById('productTable');
-  var tableRow = document.createElement('tr');
-  var tableCell = document.createElement('td');
-  tableCell.textContent = Product;
-  tableRow.appendChild(tableCell);
-  for (var i = 0; i < this.clicked.length; i++) {
-    tableCell = document.createElement('td');
-    tableCell.textContent = this.clicked[i];
-    tableRow.appendChild(tableCell);
-  }
-  for (var j = 0; j < this.shown.length; j++);
-  tableCell = document.createElement('td');
-  tableCell.textContent = this.shown[j];
-  tableRow.appendChild(tableCell);
-}
-

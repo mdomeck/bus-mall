@@ -24,18 +24,18 @@ section > p {
   margin: 0 10px;
 }
 
-#first-image {
+#first-image > first-text {
   /* background-color: blue; */
   float: left;
   width: 30%;
 }
 
-#second-image {
+#second-image > second-text {
   /* background-color: red; */
   float: left;
   width: 30%;
 }
-#third-image {
+#third-image > third-text {
   /* background-color:green; */
   float: left;
   width: 30%;
