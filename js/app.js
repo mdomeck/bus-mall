@@ -111,13 +111,11 @@ function createRandomNumbers() {
 
   return [firstRandom, secondRandom, thirdRandom];
 }
-
+ 
 function handleClickOnAProduct(event) {
   console.log('click');
-  // debugger;
   if (event.target.tagName === 'IMG') {
     totalClicks++;
-    console.log(totalClicks);
 
     var targetSrc = event.target.getAttribute('src');
     for (var i = 0; i < Product.collection.length; i++) {
