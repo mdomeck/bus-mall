@@ -17,10 +17,16 @@ how many times its been shown
 times clicked/ times shown = percentage of popularity 
 
 */
+'use strict';
 //===============Global Variables================//
-var productCollection = [];
+
+Product.collection = [];
 var totalClicks = 0;
 var maxClicks = 5;
+
+function pickRandom(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
 
 //============Constructor======================//
 
@@ -30,8 +36,12 @@ function Product(imageSource, caption) {
   this.imageSrc = imageSource;
   this.textCaption = caption;
 
-  productCollection.push(this);
+  Product.collection.push(this);
 }
+
+// Product.productCollection = [];
+
+//==============Products======================//
 
 new Product('images/bag.jpg', 'Star Wars Luggage');
 new Product('images/banana.jpg', 'Banana Slicer');
@@ -39,7 +49,7 @@ new Product('images/bathroom.jpg', 'TP Stand');
 new Product('images/boots.jpg', 'Rainboots');
 new Product('images/breakfast.jpg', 'All in One Breakfast');
 new Product('images/bubblegum.jpg', 'Meatball Bubble Gum');
-new Product('images/chair.jpg', 'Chari');
+new Product('images/chair.jpg', 'Chair');
 // new Product('images/cthulhu.jpg', 'Action Figure');
 // new Product('images/dog-duck.jpg', 'A Dog or a Duck');
 // new Product('images/dragon.jpg', 'Dragon Meat');
@@ -55,104 +65,91 @@ new Product('images/chair.jpg', 'Chari');
 // new Product('images/wine-glass.jpg', 'Wine Glass');
 
 
+
 var productImageSection = document.getElementById('product-images');
 
+productImageSection.addEventListener('click', handleClickOnAProduct);
+
+// ================Callback Function================
+function renderSomeRandomImages() {
+  var myRandomNumbers = createRandomNumbers();
+  var firstImage = document.getElementById('first-image');
+  var firstText = document.getElementById('first-text');
+  var secondImage = document.getElementById('second-image');
+  var secondText = document.getElementById('second-text');
+  var thirdImage = document.getElementById('third-image');
+  var thirdText = document.getElementById('third-text');
+
+  var firstProduct = Product.collection[myRandomNumbers[0]];
+  firstImage.src = firstProduct.imageSrc;
+  firstText.textContent = firstProduct.textCaption;
+  firstProduct.shown++;
+
+  var secondProduct = Product.collection[myRandomNumbers[1]];
+  secondImage.src = secondProduct.imageSrc;
+  secondText.textContent = secondProduct.textCaption;
+  secondProduct.shown++;
+
+  var thirdProduct = Product.collection[myRandomNumbers[2]];
+  thirdImage.src = thirdProduct.imageSrc;
+  thirdText.textContent = thirdProduct.textCaption;
+  thirdProduct.shown++;
+
+}
+
+
+function createRandomNumbers() {
+  var firstRandom = pickRandom(0, Product.collection.length);
+  var secondRandom = pickRandom(0, Product.collection.length);
+  var thirdRandom = pickRandom(0, Product.collection.length);
+  while (secondRandom === firstRandom) {
+    secondRandom = pickRandom(0, Product.collection.length);
+  }
+  while (thirdRandom === firstRandom || thirdRandom === secondRandom) {
+    thirdRandom = pickRandom(0, Product.collection.length);
+  }
+
+  return [firstRandom, secondRandom, thirdRandom];
+}
 
 function handleClickOnAProduct(event) {
   console.log('click');
   // debugger;
   if (event.target.tagName === 'IMG') {
     totalClicks++;
+    console.log(totalClicks);
+
+    var targetSrc = event.target.getAttribute('src');
+    for (var i = 0; i < Product.collection.length; i++) {
+      if (Product.collection[i].imageSrc === targetSrc) {
+        Product.collection[i].clicked++;
+      }
+    }
     if (totalClicks === maxClicks) {
       productImageSection.removeEventListener('click', handleClickOnAProduct);
+      document.getElementById('product-images').style.display = 'none';
+      renderResultList();
     }
   }
-  productImageSection.addEventListener('click', handleClickOnAProduct);
-
-  var targetSrc = event.target.getAttribute('src');
-  for (var i = 0; i < productCollection.length; i++) {
-    if (productCollection[i].imageSrc === targetSrc) {
-      productCollection[i].clicked++;
-    }
-  }
+  renderSomeRandomImages(); //brings new images after the clicks
 }
 
-renderSomeRandomImages();
 
+renderSomeRandomImages(); // the initial 3 images
 
+function renderResultList() {
+  var resultsList = document.getElementById('product-list');
 
-function renderSomeRandomImages() {
-  var firstRandom = pickRandom(0, productCollection.length);
-  console.log('first new', productCollection[firstRandom]);
+  var listHeader = document.createElement('h3');
+  listHeader.textContent = ('Survey Results');
+  resultsList.appendChild(listHeader);
 
-  var secondRandom = pickRandom(0, productCollection.length);
-  console.log('second new', productCollection[secondRandom]);
+  for (var i = 0; i < Product.collection.length; i++) {
 
-  var thirdRandom = pickRandom(0, productCollection.length);
-  console.log('third new', productCollection.length);
+    var listContent = document.createElement('li');
+    listContent.textContent = 'The image ' + Product.collection[i].textCaption + ' received ' + Product.collection[i].clicked + ' number of votes and was shown ' + Product.collection[i].shown + ' times.';
+    resultsList.appendChild(listContent);
 
-  while (secondRandom === firstRandom) {
-    secondRandom = pickRandom(0, productCollection.length);
-    console.log('second new (reroll)', productCollection[secondRandom]);
   }
-  while (thirdRandom === firstRandom || thirdRandom === secondRandom) {
-    thirdRandom = pickRandom(0, productCollection.length);
-    console.log('third new (reroll)', productCollection[thirdRandom]);
-  }
-  return [firstRandom, secondRandom, thirdRandom];
-}
-
-var myRandomNumbers = renderSomeRandomImages();
-
-var firstImage = document.getElementById('first-image');
-var firstText = document.getElementById('first-text');
-var secondImage = document.getElementById('second-image');
-var secondText = document.getElementById('second-text');
-var thirdImage = document.getElementById('third-image');
-var thirdText = document.getElementById('third-text');
-
-firstImage.src = productCollection[myRandomNumbers[0]].imageSrc;
-firstText.textContent = productCollection[myRandomNumbers[0]].imageCaption;
-productCollection[myRandomNumbers[0]].shown++;
-
-var secondProduct = productCollection[myRandomNumbers[1]];
-secondImage.src = secondProduct.imageSrc;
-secondText.textContent = secondProduct.imageCaption;
-secondProduct.shown++;
-
-var thirdProduct = productCollection[myRandomNumbers[2]];
-thirdImage.src = thirdProduct.imageSrc;
-thirdText.textContent = thirdProduct.imageCaption;
-thirdProduct.shown++;
-
-function pickRandom(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
-firstImage.addEventListener('click', handleClickOnAProduct);
-
-// secondImage.addEventListener('click', handleClickOnAProduct);
-
-// thirdImage.addEventListener('click', handleClickOnAProduct);
-
-
-var productResult = document.getElementById('');
-
-
-function makeTable() {
-  var table = document.getElementById('productTable');
-  var tableRow = document.createElement('tr');
-  var tableCell = document.createElement('td');
-  tableCell.textContent = Product;
-  tableRow.appendChild(tableCell);
-  for (var i = 0; i < this.clicked.length; i++) {
-    tableCell = document.createElement('td');
-    tableCell.textContent = this.clicked[i];
-    tableRow.appendChild(tableCell);
-  }
-  for (var j = 0; j < this.shown.length; j++);
-  tableCell = document.createElement('td');
-  tableCell.textContent = this.shown[j];
-  tableRow.appendChild(tableCell);
 }
 
