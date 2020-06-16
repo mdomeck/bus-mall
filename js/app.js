@@ -28,33 +28,45 @@ function Product(imageSource, caption) {
   this.clicked = 0;
   this.shown = 0;
   this.imageSrc = imageSource;
-  this.imageCaption = caption;
+  this.textCaption = caption;
 
   productCollection.push(this);
 }
 
-new Product('images/pen.jpg', 'Utensil Pens');
 new Product('images/bag.jpg', 'Star Wars Luggage');
 new Product('images/banana.jpg', 'Banana Slicer');
 new Product('images/bathroom.jpg', 'TP Stand');
 new Product('images/boots.jpg', 'Rainboots');
 new Product('images/breakfast.jpg', 'All in One Breakfast');
 new Product('images/bubblegum.jpg', 'Meatball Bubble Gum');
-
+new Product('images/chair.jpg', 'Chari');
+// new Product('images/cthulhu.jpg', 'Action Figure');
+// new Product('images/dog-duck.jpg', 'A Dog or a Duck');
+// new Product('images/dragon.jpg', 'Dragon Meat');
+// new Product('images/pen.jpg', 'Utensil Pens');
+// new Product('images/pet-sweep.jpg', 'Pet Sweep');
+// new Product('images/scissors.jpg', 'Pizza Cutter');
+// new Product('images/shark.jpg', 'Shark Sleeper');
+// new Product('images/sweep.png', 'Sweep and Crawl');
+// new Product('images/tauntaun.jpg', 'Sleeping Bag');
+// new Product('images/unicorn.jpg', 'Unicorn Meat');
+// new Product('images/usb.gif', 'USB Tentacles');
+// new Product('images/water-can.jpg', 'Water the Watering Can');
+// new Product('images/wine-glass.jpg', 'Wine Glass');
 
 
 var productImageSection = document.getElementById('product-images');
 
-productImageSection.addEventListener('click', handleClickOnAProduct);
 
 function handleClickOnAProduct(event) {
   console.log('click');
-  if (event.target.tagName === 'IMG') {
+  if (event.target.section === 'IMG') {
     totalClicks++;
     if (totalClicks === maxClicks) {
       productImageSection.removeEventListener('click', handleClickOnAProduct);
     }
   }
+  productImageSection.addEventListener('click', handleClickOnAProduct);
 
   var targetSrc = event.target.getAtrribute('src');
   for (var i = 0; i < productCollection.length; i++) {
@@ -65,6 +77,7 @@ function handleClickOnAProduct(event) {
 }
 
 renderSomeRandomImages();
+
 
 
 function renderSomeRandomImages() {
@@ -85,7 +98,7 @@ function renderSomeRandomImages() {
     thirdRandom = pickRandom(0, productCollection.length);
     console.log('third new (reroll)', productCollection[thirdRandom]);
   }
-  return[firstRandom, secondRandom, thirdRandom];
+  return [firstRandom, secondRandom, thirdRandom];
 }
 
 var myRandomNumbers = renderSomeRandomImages();
@@ -114,3 +127,7 @@ thirdProduct.shown++;
 function pickRandom(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
+
+// firstImage.addEventListener('click', handleClickOnAProduct);
+
+
