@@ -49,7 +49,7 @@ new Product('images/bathroom.jpg', 'TP Stand');
 new Product('images/boots.jpg', 'Rainboots');
 new Product('images/breakfast.jpg', 'All in One Breakfast');
 new Product('images/bubblegum.jpg', 'Meatball Bubble Gum');
-new Product('images/chair.jpg', 'Chari');
+new Product('images/chair.jpg', 'Chair');
 // new Product('images/cthulhu.jpg', 'Action Figure');
 // new Product('images/dog-duck.jpg', 'A Dog or a Duck');
 // new Product('images/dragon.jpg', 'Dragon Meat');
@@ -71,50 +71,6 @@ var productImageSection = document.getElementById('product-images');
 productImageSection.addEventListener('click', handleClickOnAProduct);
 
 // ================Callback Function================
-
-
-function createRandomNumbers() {
-  var firstRandom = pickRandom(0, Product.collection.length);
-  console.log('first new', Product.collection[firstRandom]);
-
-  var secondRandom = pickRandom(0, Product.collection.length);
-  console.log('second new', Product.collection[secondRandom]);
-
-  var thirdRandom = pickRandom(0, Product.collection.length);
-  console.log('third new', Product.collection.length);
-
-  while (secondRandom === firstRandom) {
-    secondRandom = pickRandom(0, Product.collection.length);
-    console.log('second new (reroll)', Product.collection[secondRandom]);
-  }
-  while (thirdRandom === firstRandom || thirdRandom === secondRandom) {
-    thirdRandom = pickRandom(0, Product.collection.length);
-    console.log('third new (reroll)', Product.collection[thirdRandom]);
-  }
-
-  return [firstRandom, secondRandom, thirdRandom];
-}
-
-function handleClickOnAProduct(event) {
-  console.log('click');
-  // debugger;
-  if (event.target.tagName === 'IMG') {
-    totalClicks++;
-    console.log(totalClicks);
-
-    var targetSrc = event.target.getAttribute('src');
-    for (var i = 0; i < Product.collection.length; i++) {
-      if (Product.collection[i].imageSrc === targetSrc) {
-        Product.collection[i].clicked++;
-      }
-    }
-    if (totalClicks === maxClicks) {
-      productImageSection.removeEventListener('click', handleClickOnAProduct);
-    }
-    renderSomeRandomImages();
-  }
-}
-
 function renderSomeRandomImages() {
   var myRandomNumbers = createRandomNumbers();
   var firstImage = document.getElementById('first-image');
@@ -141,29 +97,59 @@ function renderSomeRandomImages() {
 
 }
 
-renderSomeRandomImages();
 
-if (totalClicks === maxClicks) {
-  document.getElementById('first').style.display = 'none';
-  document.getElementById('second').style.display = 'none';
-  document.getElementById('third').style.display = 'none';
+function createRandomNumbers() {
+  var firstRandom = pickRandom(0, Product.collection.length);
+  var secondRandom = pickRandom(0, Product.collection.length);
+  var thirdRandom = pickRandom(0, Product.collection.length);
+  while (secondRandom === firstRandom) {
+    secondRandom = pickRandom(0, Product.collection.length);
+  }
+  while (thirdRandom === firstRandom || thirdRandom === secondRandom) {
+    thirdRandom = pickRandom(0, Product.collection.length);
+  }
 
-var resultsList = document.getElementById('product-list');
-var listHeader = document.getElementById('h3');
-var listContent = document.getElementById('li');
+  return [firstRandom, secondRandom, thirdRandom];
+}
 
-listHeader.textContent = 'Survey Results';
-renderSomeRandomImages.appendChild(listHeader);
+function handleClickOnAProduct(event) {
+  console.log('click');
+  // debugger;
+  if (event.target.tagName === 'IMG') {
+    totalClicks++;
+    console.log(totalClicks);
 
-for (var i = 0; i < Product.collection.length; i++) {
+    var targetSrc = event.target.getAttribute('src');
+    for (var i = 0; i < Product.collection.length; i++) {
+      if (Product.collection[i].imageSrc === targetSrc) {
+        Product.collection[i].clicked++;
+      }
+    }
+    if (totalClicks === maxClicks) {
+      productImageSection.removeEventListener('click', handleClickOnAProduct);
+      document.getElementById('product-images').style.display = 'none';
+      renderResultList();
+    }
+  }
+  renderSomeRandomImages(); //brings new images after the clicks
+}
 
-  listContent = document.createElement('li');
-  listContent.textContent = 'The image ' + Product.collection[i].imageSrc + 'received ' + Product.collection[i].clicked + ' chosen out of ' + Product.collection[i].shown + ' times shown';
-  resultsList.appendChild(listContent);
 
-  if(Product.collection[i].clicked === 1){
-    listContent.textContent = 'The image ' + Product.collection[i].imageSrc + ' received ' + Product.collection.clicked + ' voted out of ' + Product.collection[i].shown + ' times shown.';
+renderSomeRandomImages(); // the initial 3 images
+
+function renderResultList() {
+  var resultsList = document.getElementById('product-list');
+
+  var listHeader = document.createElement('h3');
+  listHeader.textContent = ('Survey Results');
+  resultsList.appendChild(listHeader);
+
+  for (var i = 0; i < Product.collection.length; i++) {
+
+    var listContent = document.createElement('li');
+    listContent.textContent = 'The image ' + Product.collection[i].textCaption + ' received ' + Product.collection[i].clicked + ' number of votes and was shown ' + Product.collection[i].shown + ' times.';
     resultsList.appendChild(listContent);
+
   }
 }
-}
+

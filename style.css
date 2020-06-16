@@ -23,6 +23,19 @@ section > p {
   font-size: 20px;
   margin: 0 10px;
 }
+#first {
+  float: left;
+  width: 30%;
+}
+#second {
+  float: left;
+  width: 30%;
+}
+
+#third {
+  float: left;
+  width: 30%;
+}
 
 #first-image > first-text {
   /* background-color: blue; */
