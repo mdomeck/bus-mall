@@ -60,7 +60,8 @@ var productImageSection = document.getElementById('product-images');
 
 function handleClickOnAProduct(event) {
   console.log('click');
-  if (event.target.section === 'IMG') {
+  // debugger;
+  if (event.target.tagName === 'IMG') {
     totalClicks++;
     if (totalClicks === maxClicks) {
       productImageSection.removeEventListener('click', handleClickOnAProduct);
@@ -68,7 +69,7 @@ function handleClickOnAProduct(event) {
   }
   productImageSection.addEventListener('click', handleClickOnAProduct);
 
-  var targetSrc = event.target.getAtrribute('src');
+  var targetSrc = event.target.getAttribute('src');
   for (var i = 0; i < productCollection.length; i++) {
     if (productCollection[i].imageSrc === targetSrc) {
       productCollection[i].clicked++;
@@ -128,6 +129,30 @@ function pickRandom(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-// firstImage.addEventListener('click', handleClickOnAProduct);
+firstImage.addEventListener('click', handleClickOnAProduct);
 
+// secondImage.addEventListener('click', handleClickOnAProduct);
+
+// thirdImage.addEventListener('click', handleClickOnAProduct);
+
+
+var productResult = document.getElementById('');
+
+
+function makeTable() {
+  var table = document.getElementById('productTable');
+  var tableRow = document.createElement('tr');
+  var tableCell = document.createElement('td');
+  tableCell.textContent = Product;
+  tableRow.appendChild(tableCell);
+  for (var i = 0; i < this.clicked.length; i++) {
+    tableCell = document.createElement('td');
+    tableCell.textContent = this.clicked[i];
+    tableRow.appendChild(tableCell);
+  }
+  for (var j = 0; j < this.shown.length; j++);
+  tableCell = document.createElement('td');
+  tableCell.textContent = this.shown[j];
+  tableRow.appendChild(tableCell);
+}
 
