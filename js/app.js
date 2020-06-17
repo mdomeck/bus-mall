@@ -50,9 +50,9 @@ new Product('images/boots.jpg', 'Rainboots');
 new Product('images/breakfast.jpg', 'All in One Breakfast');
 new Product('images/bubblegum.jpg', 'Meatball Bubble Gum');
 new Product('images/chair.jpg', 'Chair');
-// new Product('images/cthulhu.jpg', 'Action Figure');
-// new Product('images/dog-duck.jpg', 'A Dog or a Duck');
-// new Product('images/dragon.jpg', 'Dragon Meat');
+new Product('images/cthulhu.jpg', 'Action Figure');
+new Product('images/dog-duck.jpg', 'A Dog or a Duck');
+new Product('images/dragon.jpg', 'Dragon Meat');
 // new Product('images/pen.jpg', 'Utensil Pens');
 // new Product('images/pet-sweep.jpg', 'Pet Sweep');
 // new Product('images/scissors.jpg', 'Pizza Cutter');
@@ -97,21 +97,27 @@ function renderSomeRandomImages() {
 
 }
 
+var lastImages = [];
 
 function createRandomNumbers() {
   var firstRandom = pickRandom(0, Product.collection.length);
   var secondRandom = pickRandom(0, Product.collection.length);
   var thirdRandom = pickRandom(0, Product.collection.length);
-  while (secondRandom === firstRandom) {
+  while (lastImages.includes(firstRandom)){
+    firstRandom = pickRandom(0, Product
+      .collection.length);
+  }
+  while (secondRandom === firstRandom || lastImages.includes(secondRandom)) {
     secondRandom = pickRandom(0, Product.collection.length);
   }
-  while (thirdRandom === firstRandom || thirdRandom === secondRandom) {
+  while (thirdRandom === firstRandom || thirdRandom === secondRandom || lastImages.includes(thirdRandom)) {
     thirdRandom = pickRandom(0, Product.collection.length);
   }
-
+  console.log(firstRandom,secondRandom,thirdRandom);
+  lastImages = [firstRandom, secondRandom, thirdRandom];
   return [firstRandom, secondRandom, thirdRandom];
 }
- 
+
 function handleClickOnAProduct(event) {
   console.log('click');
   if (event.target.tagName === 'IMG') {
@@ -122,6 +128,7 @@ function handleClickOnAProduct(event) {
       if (Product.collection[i].imageSrc === targetSrc) {
         Product.collection[i].clicked++;
       }
+
     }
     if (totalClicks === maxClicks) {
       productImageSection.removeEventListener('click', handleClickOnAProduct);
