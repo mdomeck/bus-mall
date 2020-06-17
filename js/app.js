@@ -53,16 +53,16 @@ new Product('images/chair.jpg', 'Chair');
 new Product('images/cthulhu.jpg', 'Action Figure');
 new Product('images/dog-duck.jpg', 'A Dog or a Duck');
 new Product('images/dragon.jpg', 'Dragon Meat');
-// new Product('images/pen.jpg', 'Utensil Pens');
-// new Product('images/pet-sweep.jpg', 'Pet Sweep');
-// new Product('images/scissors.jpg', 'Pizza Cutter');
-// new Product('images/shark.jpg', 'Shark Sleeper');
-// new Product('images/sweep.png', 'Sweep and Crawl');
-// new Product('images/tauntaun.jpg', 'Sleeping Bag');
-// new Product('images/unicorn.jpg', 'Unicorn Meat');
-// new Product('images/usb.gif', 'USB Tentacles');
-// new Product('images/water-can.jpg', 'Water the Watering Can');
-// new Product('images/wine-glass.jpg', 'Wine Glass');
+new Product('images/pen.jpg', 'Utensil Pens');
+new Product('images/pet-sweep.jpg', 'Pet Sweep');
+new Product('images/scissors.jpg', 'Pizza Cutter');
+new Product('images/shark.jpg', 'Shark Sleeper');
+new Product('images/sweep.png', 'Sweep and Crawl');
+new Product('images/tauntaun.jpg', 'Sleeping Bag');
+new Product('images/unicorn.jpg', 'Unicorn Meat');
+new Product('images/usb.gif', 'USB Tentacles');
+new Product('images/water-can.jpg', 'Water the Watering Can');
+new Product('images/wine-glass.jpg', 'Wine Glass');
 
 
 
@@ -103,7 +103,7 @@ function createRandomNumbers() {
   var firstRandom = pickRandom(0, Product.collection.length);
   var secondRandom = pickRandom(0, Product.collection.length);
   var thirdRandom = pickRandom(0, Product.collection.length);
-  while (lastImages.includes(firstRandom)){
+  while (lastImages.includes(firstRandom)) {
     firstRandom = pickRandom(0, Product
       .collection.length);
   }
@@ -113,7 +113,7 @@ function createRandomNumbers() {
   while (thirdRandom === firstRandom || thirdRandom === secondRandom || lastImages.includes(thirdRandom)) {
     thirdRandom = pickRandom(0, Product.collection.length);
   }
-  console.log(firstRandom,secondRandom,thirdRandom);
+  console.log(firstRandom, secondRandom, thirdRandom);
   lastImages = [firstRandom, secondRandom, thirdRandom];
   return [firstRandom, secondRandom, thirdRandom];
 }
@@ -128,12 +128,12 @@ function handleClickOnAProduct(event) {
       if (Product.collection[i].imageSrc === targetSrc) {
         Product.collection[i].clicked++;
       }
-
     }
     if (totalClicks === maxClicks) {
       productImageSection.removeEventListener('click', handleClickOnAProduct);
       document.getElementById('product-images').style.display = 'none';
       renderResultList();
+      renderChart();
     }
   }
   renderSomeRandomImages(); //brings new images after the clicks
@@ -152,9 +152,87 @@ function renderResultList() {
   for (var i = 0; i < Product.collection.length; i++) {
 
     var listContent = document.createElement('li');
-    listContent.textContent = 'The image ' + Product.collection[i].textCaption + ' received ' + Product.collection[i].clicked + ' number of votes and was shown ' + Product.collection[i].shown + ' times.';
+    listContent.textContent = 'The ' + Product.collection[i].textCaption + ' received ' + Product.collection[i].clicked + ' votes and was showed ' + Product.collection[i].shown + ' times.';
     resultsList.appendChild(listContent);
 
   }
+}
+// var name = [];
+
+function chartTotals() {
+  console.log('product collection', Product.collection);
+  Product.productCaption = [];
+  Product.productClicks = [];
+  Product.productShown = [];
+  for (var i = 0; i < Product.collection.length; i++) {
+    Product.productCaption.push(Product.collection[i].textCaption);
+    Product.productClicks.push(Product.collection[i].clicked);
+    Product.productShown.push(Product.collection[i].shown);
+  }
+  console.log('line 170', Product.productShown);
+}
+
+function renderChart() {
+  chartTotals();
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Product.productCaption,
+      datasets: [{
+        label: 'Product Votes',
+        data: Product.productShown,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      // }],
+      // datasets: [{
+      //   label: 'Product Votes',
+      //   data: Product.productClicked,
+      //   backgroundColor: [
+      //     'rgba(255, 99, 132, 0.2)',
+      //     'rgba(54, 162, 235, 0.2)',
+      //     'rgba(255, 206, 86, 0.2)',
+      //     'rgba(75, 192, 192, 0.2)',
+      //     'rgba(153, 102, 255, 0.2)',
+      //     'rgba(255, 159, 64, 0.2)'
+      //   ],
+      //   borderColor: [
+      //     'rgba(255, 99, 132, 1)',
+      //     'rgba(54, 162, 235, 1)',
+      //     'rgba(255, 206, 86, 1)',
+      //     'rgba(75, 192, 192, 1)',
+      //     'rgba(153, 102, 255, 1)',
+      //     'rgba(255, 159, 64, 1)'
+      //   ],
+      //   borderWidth: 1
+        // type: 'line',
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+
 }
 
