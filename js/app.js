@@ -11,38 +11,62 @@ function pickRandom(min, max) {
 
 //============Constructor======================//
 
-function Product(imageSource, caption) {
-  this.clicked = 0;
-  this.shown = 0;
+function Product(imageSource, caption, clicked = 0, shown = 0) {
+  this.clicked = clicked;
+  this.shown = shown;
   this.imageSrc = imageSource;
   this.textCaption = caption;
 
   Product.collection.push(this);
 }
 
-//==============Products======================//
+// =============Local Storage===============
 
-new Product('images/bag.jpg', 'Star Wars Luggage');
-new Product('images/banana.jpg', 'Banana Slicer');
-new Product('images/bathroom.jpg', 'TP Stand');
-new Product('images/boots.jpg', 'Rainboots');
-new Product('images/breakfast.jpg', 'All in One Breakfast');
-new Product('images/bubblegum.jpg', 'Meatball Bubble Gum');
-new Product('images/chair.jpg', 'Chair');
-new Product('images/cthulhu.jpg', 'Action Figure');
-new Product('images/dog-duck.jpg', 'A Dog or a Duck');
-new Product('images/dragon.jpg', 'Dragon Meat');
-new Product('images/pen.jpg', 'Utensil Pens');
-new Product('images/pet-sweep.jpg', 'Pet Sweep');
-new Product('images/scissors.jpg', 'Pizza Cutter');
-new Product('images/shark.jpg', 'Shark Sleeper');
-new Product('images/sweep.png', 'Sweep and Crawl');
-new Product('images/tauntaun.jpg', 'Sleeping Bag');
-new Product('images/unicorn.jpg', 'Unicorn Meat');
-new Product('images/usb.gif', 'USB Tentacles');
-new Product('images/water-can.jpg', 'Water the Watering Can');
-new Product('images/wine-glass.jpg', 'Wine Glass');
 
+
+// var storedProduct = JSON.stringify(Product.collection.length);
+// console.log('storageProduct before local storage', storageProduct);
+// localStorage.setItem('storageProduct', storageProduct);
+
+
+// =================retrieve storage==============
+var productFromLocalStorage = localStorage.getItem('productCollection');
+console.log('productFromLocalStorage', productFromLocalStorage);
+if (productFromLocalStorage !== null) {
+  var unstringProduct = JSON.parse(productFromLocalStorage);
+  console.log('unstringyProduct', unstringProduct);
+  for (var i = 0; i < unstringProduct.length; i++) {
+    var prod = unstringProduct[i];
+    var clicked = prod.clicked;
+    var shown = prod.shown;
+    var imageSrc = prod.imageSrc;
+    var textCaption = prod.textCaption;
+    new Product(imageSrc, textCaption, clicked, shown);
+  }
+
+
+} else {
+  new Product('images/bag.jpg', 'Star Wars Luggage');
+  new Product('images/banana.jpg', 'Banana Slicer');
+  new Product('images/bathroom.jpg', 'TP Stand');
+  new Product('images/boots.jpg', 'Rainboots');
+  new Product('images/breakfast.jpg', 'All in One Breakfast');
+  new Product('images/bubblegum.jpg', 'Meatball Bubble Gum');
+  new Product('images/chair.jpg', 'Chair');
+  new Product('images/cthulhu.jpg', 'Action Figure');
+  new Product('images/dog-duck.jpg', 'A Dog or a Duck');
+  new Product('images/dragon.jpg', 'Dragon Meat');
+  new Product('images/pen.jpg', 'Utensil Pens');
+  new Product('images/pet-sweep.jpg', 'Pet Sweep');
+  new Product('images/scissors.jpg', 'Pizza Cutter');
+  new Product('images/shark.jpg', 'Shark Sleeper');
+  new Product('images/sweep.png', 'Sweep and Crawl');
+  new Product('images/tauntaun.jpg', 'Sleeping Bag');
+  new Product('images/unicorn.jpg', 'Unicorn Meat');
+  new Product('images/usb.gif', 'USB Tentacles');
+  new Product('images/water-can.jpg', 'Water the Watering Can');
+  new Product('images/wine-glass.jpg', 'Wine Glass');
+}
 
 
 var productImageSection = document.getElementById('product-images');
@@ -106,6 +130,9 @@ function handleClickOnAProduct(event) {
     for (var i = 0; i < Product.collection.length; i++) {
       if (Product.collection[i].imageSrc === targetSrc) {
         Product.collection[i].clicked++;
+        var productCollection = JSON.stringify(Product.collection);
+        localStorage.setItem('productCollection', productCollection);
+
       }
     }
     if (totalClicks === maxClicks) {
@@ -114,6 +141,7 @@ function handleClickOnAProduct(event) {
       renderResultList();
       renderChart();
     }
+    // var storageProduct = JSON.stringify(Product.collection);
   }
   renderSomeRandomImages(); //brings new images after the clicks
 }
