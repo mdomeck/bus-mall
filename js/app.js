@@ -1,22 +1,3 @@
-/* Show side by side 3 images
-track their clicks
-after 25 clicks diplay the results of how many clicks each pic received
-
-control image size
-
-show products based on past times shown
-don't repeat back to back
-don't repeat in a single cycle
-don't show the same products next to itself
-
-Randomizing the products shown
-
-Oject needs
-how many times its been clicked
-how many times its been shown
-times clicked/ times shown = percentage of popularity 
-
-*/
 'use strict';
 //===============Global Variables================//
 
@@ -38,8 +19,6 @@ function Product(imageSource, caption) {
 
   Product.collection.push(this);
 }
-
-// Product.productCollection = [];
 
 //==============Products======================//
 
@@ -139,9 +118,10 @@ function handleClickOnAProduct(event) {
   renderSomeRandomImages(); //brings new images after the clicks
 }
 
-
 renderSomeRandomImages(); // the initial 3 images
 
+
+// =================================Render Results==================================
 function renderResultList() {
   var resultsList = document.getElementById('product-list');
 
@@ -157,10 +137,9 @@ function renderResultList() {
 
   }
 }
-// var name = [];
 
+// ==============================Render Chart===================================
 function chartTotals() {
-  console.log('product collection', Product.collection);
   Product.productCaption = [];
   Product.productClicks = [];
   Product.productShown = [];
@@ -169,7 +148,6 @@ function chartTotals() {
     Product.productClicks.push(Product.collection[i].clicked);
     Product.productShown.push(Product.collection[i].shown);
   }
-  console.log('line 170', Product.productShown);
 }
 
 function renderChart() {
