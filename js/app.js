@@ -20,21 +20,11 @@ function Product(imageSource, caption, clicked = 0, shown = 0) {
   Product.collection.push(this);
 }
 
-// =============Local Storage===============
+// ========================Local Storage========================
 
-
-
-// var storedProduct = JSON.stringify(Product.collection.length);
-// console.log('storageProduct before local storage', storageProduct);
-// localStorage.setItem('storageProduct', storageProduct);
-
-
-// =================retrieve storage==============
 var productFromLocalStorage = localStorage.getItem('productCollection');
-console.log('productFromLocalStorage', productFromLocalStorage);
 if (productFromLocalStorage !== null) {
   var unstringProduct = JSON.parse(productFromLocalStorage);
-  console.log('unstringyProduct', unstringProduct);
   for (var i = 0; i < unstringProduct.length; i++) {
     var prod = unstringProduct[i];
     var clicked = prod.clicked;
@@ -116,13 +106,11 @@ function createRandomNumbers() {
   while (thirdRandom === firstRandom || thirdRandom === secondRandom || lastImages.includes(thirdRandom)) {
     thirdRandom = pickRandom(0, Product.collection.length);
   }
-  console.log(firstRandom, secondRandom, thirdRandom);
   lastImages = [firstRandom, secondRandom, thirdRandom];
   return [firstRandom, secondRandom, thirdRandom];
 }
 
 function handleClickOnAProduct(event) {
-  console.log('click');
   if (event.target.tagName === 'IMG') {
     totalClicks++;
 
@@ -141,7 +129,6 @@ function handleClickOnAProduct(event) {
       renderResultList();
       renderChart();
     }
-    // var storageProduct = JSON.stringify(Product.collection);
   }
   renderSomeRandomImages(); //brings new images after the clicks
 }
@@ -149,7 +136,8 @@ function handleClickOnAProduct(event) {
 renderSomeRandomImages(); // the initial 3 images
 
 
-// =================================Render Results==================================
+// ====================Render Results===========================
+
 function renderResultList() {
   var resultsList = document.getElementById('product-list');
 
@@ -166,7 +154,8 @@ function renderResultList() {
   }
 }
 
-// ==============================Render Chart===================================
+// ========================Render Chart============================
+
 function chartTotals() {
   Product.productCaption = [];
   Product.productClicks = [];
@@ -194,7 +183,21 @@ function renderChart() {
           'rgba(255, 206, 86, 0.2)',
           'rgba(75, 192, 192, 0.2)',
           'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132,0.2)',
+          'rgba(54, 162, 235, 0.2)'
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
@@ -202,7 +205,21 @@ function renderChart() {
           'rgba(255, 206, 86, 1)',
           'rgba(75, 192, 192, 1)',
           'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)'
         ],
         borderWidth: 1
       },
@@ -215,7 +232,21 @@ function renderChart() {
           'rgba(255, 206, 86, 0.2)',
           'rgba(75, 192, 192, 0.2)',
           'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)'
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
@@ -223,7 +254,21 @@ function renderChart() {
           'rgba(255, 206, 86, 1)',
           'rgba(75, 192, 192, 1)',
           'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)'
         ],
         borderWidth: 1
         // type: 'line',
