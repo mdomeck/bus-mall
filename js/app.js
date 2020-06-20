@@ -9,7 +9,7 @@ function pickRandom(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-//============Constructor======================//
+//============Constructor======================
 
 function Product(imageSource, caption, clicked = 0, shown = 0) {
   this.clicked = clicked;
@@ -20,7 +20,7 @@ function Product(imageSource, caption, clicked = 0, shown = 0) {
   Product.collection.push(this);
 }
 
-// ========================Local Storage========================
+// ================Local Storage===================
 
 var productFromLocalStorage = localStorage.getItem('productCollection');
 if (productFromLocalStorage !== null) {
@@ -33,7 +33,6 @@ if (productFromLocalStorage !== null) {
     var textCaption = prod.textCaption;
     new Product(imageSrc, textCaption, clicked, shown);
   }
-
 
 } else {
   new Product('images/bag.jpg', 'Star Wars Luggage');
@@ -87,7 +86,6 @@ function renderSomeRandomImages() {
   thirdImage.src = thirdProduct.imageSrc;
   thirdText.textContent = thirdProduct.textCaption;
   thirdProduct.shown++;
-
 }
 
 var lastImages = [];
@@ -130,13 +128,13 @@ function handleClickOnAProduct(event) {
       renderChart();
     }
   }
-  renderSomeRandomImages(); //brings new images after the clicks
+  renderSomeRandomImages(); 
 }
 
-renderSomeRandomImages(); // the initial 3 images
+renderSomeRandomImages(); 
 
 
-// ====================Render Results===========================
+// =================Render Results====================
 
 function renderResultList() {
   var resultsList = document.getElementById('product-list');
@@ -154,7 +152,7 @@ function renderResultList() {
   }
 }
 
-// ========================Render Chart============================
+// ==============Render Chart====================
 
 function chartTotals() {
   Product.productCaption = [];
@@ -271,7 +269,6 @@ function renderChart() {
           'rgba(54, 162, 235, 1)'
         ],
         borderWidth: 1
-        // type: 'line',
       }]
     },
     options: {
