@@ -1,7 +1,9 @@
 h1 {
-  width: 300px;
-  margin: 30px auto;
-  font-size:  30px;
+  width: 690px;
+  font-size:  40px;
+  font-family: fantasy;
+  padding: 50px;
+  color: blueviolet;
 }
 
 div {
@@ -17,16 +19,18 @@ section {
   width: 100%;
   padding-right: 5%;
   padding-left: 5%;
-  }
+}
 
 section > p {
   font-size: 20px;
   margin: 0 10px;
 }
+
 #first {
   float: left;
   width: 30%;
 }
+
 #second {
   float: left;
   width: 30%;
@@ -36,26 +40,4 @@ section > p {
   float: left;
   width: 30%;
 }
-
-#first-image > first-text {
-  /* background-color: blue; */
-  float: left;
-  width: 30%;
-}
-
-#second-image > second-text {
-  /* background-color: red; */
-  float: left;
-  width: 30%;
-}
-#third-image > third-text {
-  /* background-color:green; */
-  float: left;
-  width: 30%;
-}
-
-/* #results {
-  margin: 100px;
-    
-} */
 
